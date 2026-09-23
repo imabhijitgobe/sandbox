@@ -18,3 +18,7 @@ Use `bun` for all commands. Do not use `npm`, `npx`, `yarn`, or `pnpm`.
 - Add package: `bun add <pkg>`
 - Add dev package: `bun add -d <pkg>`
 - Run binary: `bunx <pkg>`
+
+# Skills: required on every prompt
+
+Before acting on any prompt, check `.opencode/skills/` for a skill matching the task and load it with the skill tool. Project skills take precedence over global ones. Never skip this, even for small tasks — e.g. anything Clerk-related routes through the `clerk` skill first.
