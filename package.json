@@ -16,6 +16,8 @@
     "db:studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.77",
+    "@ai-sdk/react": "^4.0.114",
     "@base-ui/react": "^1.8.0",
     "@clerk/nextjs": "^7.9.4",
     "@clerk/ui": "^1.33.1",
@@ -24,6 +26,7 @@
     "@neondatabase/serverless": "^1.1.0",
     "@shadcn/react": "^0.3.1",
     "add": "^2.0.9",
+    "ai": "^7.0.111",
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
     "cn": "^0.4.0",

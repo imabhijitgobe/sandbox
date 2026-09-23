@@ -1,12 +1,7 @@
 import { notFound } from "next/navigation"
 import { auth } from "@clerk/nextjs/server"
 
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyTitle,
-} from "@/components/ui/empty"
+import { ChatThread } from "@/components/chat-thread"
 import { getGame } from "@/lib/games/queries"
 
 export default async function GamePage({
@@ -24,15 +19,10 @@ export default async function GamePage({
   }
 
   return (
-    <main className="flex min-h-svh items-center justify-center px-6 py-20">
-      <Empty>
-        <EmptyHeader>
-          <EmptyTitle className="text-3xl font-semibold">
-            {game.title}
-          </EmptyTitle>
-          <EmptyDescription>Game workspace coming soon.</EmptyDescription>
-        </EmptyHeader>
-      </Empty>
+    <main className="flex h-svh flex-col px-6 py-6">
+      <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col">
+        <ChatThread gameId={id} />
+      </div>
     </main>
   )
 }

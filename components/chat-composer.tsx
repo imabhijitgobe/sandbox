@@ -20,27 +20,26 @@ import {
 const MODELS = [{ id: "kimi-k3", label: "Kimi K3" }]
 
 export function ChatComposer({
-  value: controlledValue,
+  value,
   onValueChange,
   onSubmit,
+  disabled = false,
 }: {
-  value?: string
-  onValueChange?: (value: string) => void
+  value: string
+  onValueChange: (value: string) => void
   onSubmit?: (value: string) => void | Promise<void>
+  disabled?: boolean
 }) {
-  const [internalValue, setInternalValue] = React.useState("")
-  const value = controlledValue ?? internalValue
-  const setValue = onValueChange ?? setInternalValue
   const [model, setModel] = React.useState(MODELS[0].id)
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
     const trimmed = value.trim()
-    if (!trimmed) {
+    if (!trimmed || disabled) {
       return
     }
     await onSubmit?.(trimmed)
-    setValue("")
+    onValueChange("")
   }
 
   return (
@@ -49,7 +48,7 @@ export function ChatComposer({
         <InputGroup>
           <InputGroupTextarea
             value={value}
-            onChange={(event) => setValue(event.target.value)}
+            onChange={(event) => onValueChange(event.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault()
@@ -59,6 +58,7 @@ export function ChatComposer({
             placeholder="Describe the game you want to build..."
             rows={3}
             aria-label="Describe the game you want to build"
+            disabled={disabled}
           />
           <InputGroupAddon align="block-end">
             <DropdownMenu>
@@ -92,6 +92,7 @@ export function ChatComposer({
               size="icon-sm"
               className="ml-auto rounded-full"
               aria-label="Send"
+              disabled={disabled || !value.trim()}
             >
               <ArrowUp />
             </InputGroupButton>
