@@ -6,6 +6,7 @@ import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport, type UIMessage } from "ai"
 
 import { ChatComposer } from "@/components/chat-composer"
+import { takePendingPrompt } from "@/lib/games/pending-prompt"
 import { Bubble, BubbleContent } from "@/components/ui/bubble"
 import {
   Message,
@@ -50,6 +51,21 @@ export function ChatThread({
   } = useChat({ id: gameId, transport, messages: initialMessages })
 
   const isLoading = status === "submitted" || status === "streaming"
+
+  // First message handed off from the homepage composer: send it once the
+  // fresh (empty) thread is ready. The normal transport flow then persists it.
+  const autoSentRef = React.useRef(false)
+  React.useEffect(() => {
+    if (autoSentRef.current || status !== "ready") {
+      return
+    }
+    const prompt = takePendingPrompt(gameId)?.trim()
+    if (!prompt || messages.length > 0) {
+      return
+    }
+    autoSentRef.current = true
+    void sendMessage({ text: prompt })
+  }, [gameId, messages.length, status, sendMessage])
 
   async function handleSubmit(value: string) {
     const trimmed = value.trim()

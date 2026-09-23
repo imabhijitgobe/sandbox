@@ -10,7 +10,7 @@ type Game = typeof games.$inferSelect
 
 const GamesContext = React.createContext<{
   games: Game[]
-  addGame: (title: string) => Promise<void>
+  addGame: (title: string) => Promise<Game>
 } | null>(null)
 
 export function useGames() {
@@ -45,8 +45,9 @@ export function GamesProvider({
     }
     setGames((prev) => [pending, ...prev])
     try {
-      await createGame(title)
+      const game = await createGame(title)
       router.refresh()
+      return game
     } catch (error) {
       setGames((prev) => prev.filter((game) => game.id !== pending.id))
       throw error
