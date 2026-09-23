@@ -1,18 +1,24 @@
 import Image from "next/image"
-import { Coins, SquarePen } from "lucide-react"
+import Link from "next/link"
+import { ChevronRight, Coins, SquarePen } from "lucide-react"
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
 
-import { Empty, EmptyDescription } from "@/components/ui/empty"
+import { RecentGames } from "@/components/recent-games"
 import { SidebarDragHandle } from "@/components/sidebar-drag-handle"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
@@ -31,7 +37,10 @@ export function AppSidebar() {
         </div>
         <SidebarMenu className="group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:gap-2">
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="New game">
+            <SidebarMenuButton
+              tooltip="New game"
+              render={<Link href="/" />}
+            >
               <SquarePen />
               <span>New game</span>
             </SidebarMenuButton>
@@ -40,12 +49,19 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Recents</SidebarGroupLabel>
-          <SidebarGroupContent className="group-data-[collapsible=icon]:hidden">
-            <Empty className="p-4">
-              <EmptyDescription>Your games will live here.</EmptyDescription>
-            </Empty>
-          </SidebarGroupContent>
+          <Collapsible defaultOpen>
+            <SidebarGroupLabel
+              render={
+                <CollapsibleTrigger className="group flex h-8 w-full items-center px-2" />
+              }
+            >
+              Recents
+              <ChevronRight className="ml-auto transition-transform group-data-[panel-open]:rotate-90" />
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+              <RecentGames />
+            </CollapsibleContent>
+          </Collapsible>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
@@ -54,7 +70,7 @@ export function AppSidebar() {
             <SidebarMenuButton tooltip="Credits">
               <Coins />
               <span>Credits</span>
-              <span className="ml-auto">$1.00</span>
+              <SidebarMenuBadge>$1.00</SidebarMenuBadge>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

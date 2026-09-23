@@ -1,7 +1,8 @@
 import Image from "next/image"
 import { auth } from "@clerk/nextjs/server"
 
-import { ChatComposer } from "@/components/chat-composer"
+import { GameSuggestions } from "@/components/game-suggestions"
+import { NewGameComposer } from "@/components/new-game-composer"
 import {
   Empty,
   EmptyContent,
@@ -29,8 +30,10 @@ export default async function Page() {
             your own words. If you can describe it, you can play it.
           </EmptyDescription>
         </EmptyHeader>
-        <EmptyContent className="max-w-2xl">
-          <ChatComposer />
+        <EmptyContent className="max-w-2xl gap-6">
+          <NewGameComposer>
+            <GameSuggestions />
+          </NewGameComposer>
         </EmptyContent>
       </Empty>
     </main>

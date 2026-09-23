@@ -1,20 +1,8 @@
 "use client"
 
 import * as React from "react"
-import {
-  ArrowUp,
-  Axe,
-  Car,
-  ChevronDown,
-  Crosshair,
-  Gamepad2,
-  Grip,
-  Plane,
-  Swords,
-  Zap,
-} from "lucide-react"
+import { ArrowUp, ChevronDown, Grip } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,50 +19,28 @@ import {
 
 const MODELS = [{ id: "kimi-k3", label: "Kimi K3" }]
 
-const SUGGESTIONS = [
-  { label: "Voxel survival", prompt: "A voxel survival game", icon: Axe },
-  { label: "Ink samurai duel", prompt: "An ink-style samurai duel", icon: Swords },
-  {
-    label: "Comic-book firefight",
-    prompt: "A comic-book style firefight shooter",
-    icon: Zap,
-  },
-  {
-    label: "Realistic battlefield",
-    prompt: "A realistic battlefield shooter",
-    icon: Plane,
-  },
-  {
-    label: "Fight-first shooter",
-    prompt: "A fight-first shooter game",
-    icon: Crosshair,
-  },
-  {
-    label: "Jungle expedition drive",
-    prompt: "A jungle expedition driving game",
-    icon: Car,
-  },
-  {
-    label: "Sunny kingdom platformer",
-    prompt: "A sunny kingdom platformer",
-    icon: Gamepad2,
-  },
-]
-
 export function ChatComposer({
+  value: controlledValue,
+  onValueChange,
   onSubmit,
 }: {
-  onSubmit?: (value: string) => void
+  value?: string
+  onValueChange?: (value: string) => void
+  onSubmit?: (value: string) => void | Promise<void>
 }) {
-  const [value, setValue] = React.useState("")
+  const [internalValue, setInternalValue] = React.useState("")
+  const value = controlledValue ?? internalValue
+  const setValue = onValueChange ?? setInternalValue
   const [model, setModel] = React.useState(MODELS[0].id)
 
-  function submit(event: React.FormEvent) {
+  async function submit(event: React.FormEvent) {
     event.preventDefault()
-    if (!value.trim()) {
+    const trimmed = value.trim()
+    if (!trimmed) {
       return
     }
-    onSubmit?.(value.trim())
+    await onSubmit?.(trimmed)
+    setValue("")
   }
 
   return (
@@ -132,20 +98,6 @@ export function ChatComposer({
           </InputGroupAddon>
         </InputGroup>
       </form>
-      <div className="mt-4 flex flex-wrap justify-center gap-2">
-        {SUGGESTIONS.map((s) => (
-          <Button
-            key={s.label}
-            type="button"
-            variant="outline"
-            className="rounded-full opacity-70 hover:opacity-100"
-            onClick={() => setValue(s.prompt)}
-          >
-            <s.icon />
-            {s.label}
-          </Button>
-        ))}
-      </div>
     </div>
   )
 }
