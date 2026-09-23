@@ -27,7 +27,13 @@ function getMessageText(message: UIMessage): string {
     .join("")
 }
 
-export function ChatThread({ gameId }: { gameId: string }) {
+export function ChatThread({
+  gameId,
+  initialMessages,
+}: {
+  gameId: string
+  initialMessages: UIMessage[]
+}) {
   const [draft, setDraft] = React.useState("")
   const [transport] = React.useState(
     () => new DefaultChatTransport({ api: "/api/chat", body: { gameId } })
@@ -41,7 +47,7 @@ export function ChatThread({ gameId }: { gameId: string }) {
     stop,
     regenerate,
     clearError,
-  } = useChat({ id: gameId, transport })
+  } = useChat({ id: gameId, transport, messages: initialMessages })
 
   const isLoading = status === "submitted" || status === "streaming"
 

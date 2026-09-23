@@ -40,6 +40,7 @@ export function GamesProvider({
       id: `temp-${crypto.randomUUID()}`,
       organizationId: "",
       title,
+      messages: [],
       createdAt: new Date(),
     }
     setGames((prev) => [pending, ...prev])

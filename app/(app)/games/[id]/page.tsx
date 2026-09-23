@@ -21,7 +21,7 @@ export default async function GamePage({
   return (
     <main className="flex h-svh flex-col px-6 py-6">
       <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col">
-        <ChatThread gameId={id} />
+        <ChatThread gameId={id} initialMessages={game.messages} />
       </div>
     </main>
   )
