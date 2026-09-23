@@ -1,6 +1,6 @@
 export default function Page() {
   return (
-    <main className="flex min-h-svh items-center justify-center bg-black px-6 py-20">
+    <main className="flex min-h-svh items-center justify-center bg-olive px-6 py-20">
       <div className="flex w-full max-w-3xl flex-col items-center text-center">
         <div
           aria-hidden="true"
