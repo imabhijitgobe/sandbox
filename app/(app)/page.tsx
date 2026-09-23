@@ -1,10 +1,8 @@
 import Image from "next/image"
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
 import { auth } from "@clerk/nextjs/server"
 
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
@@ -27,10 +25,6 @@ export default async function Page() {
             your own words. If you can describe it, you can play it.
           </EmptyDescription>
         </EmptyHeader>
-        <EmptyContent>
-          <OrganizationSwitcher />
-          <UserButton />
-        </EmptyContent>
       </Empty>
     </main>
   )
